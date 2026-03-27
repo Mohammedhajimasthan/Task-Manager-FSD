@@ -1,0 +1,241 @@
+/* ---------------- ROOT ---------------- */
+
+@layer base {
+  :root {
+    --foreground: 15, 23, 42;
+    --bg-1: 239, 246, 255;
+    --bg-2: 224, 242, 254;
+
+    --accent: 59, 130, 246;
+    --accent-2: 99, 102, 241;
+
+    --radius: 1.25rem;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    color: rgb(var(--foreground));
+
+    /* 🔥 Animated gradient background */
+    background: linear-gradient(120deg, rgb(var(--bg-1)), rgb(var(--bg-2)));
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* 🎞️ NOISE OVERLAY */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* ---------------- COMPONENTS ---------------- */
+@layer components {
+
+  /* 🧊 GLASS PANEL (NEXT LEVEL) */
+  .glass {
+    position: relative;
+    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 12px 24px rgba(8, 33, 76, 0.14);
+    backdrop-filter: blur(20px);
+    background: linear-gradient(
+      145deg,
+      rgba(255,255,255,0.6),
+      rgba(255,255,255,0.2)
+    );
+  }
+
+  /* 💎 FLOATING CARD */
+  .card {
+    position: relative;
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+
+    transition: all 0.35s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+
+  /* 🌈 GLOW BUTTON */
+  .btn-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    color: #ffffff;
+    font-weight: 600;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3b82f6, #6366f1, #06b6d4);
+
+    box-shadow: 0 8px 25px rgba(59,130,246,0.35);
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(59,130,246,0.5);
+  }
+
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+    transform: translateX(-100%);
+  }
+
+  .btn-primary:hover::after {
+    animation: shine 1s forwards;
+  }
+
+  /* ⚪ SECONDARY BUTTON */
+  .btn-secondary {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    border: 1px solid rgba(148,163,184,0.4);
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+
+    transition: all 0.25s ease;
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+
+  /* ✨ INPUT FIELD (SUPER CLEAN) */
+  .input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(148,163,184,0.25);
+    outline: none;
+    background: rgba(255,255,255,0.9);
+
+    transition: all 0.25s ease;
+  }
+
+  .input-field:focus {
+    border-color: rgb(var(--accent));
+    box-shadow:
+      0 0 0 3px rgba(59,130,246,0.25),
+      0 5px 15px rgba(59,130,246,0.1);
+  }
+
+  /* 🏷 BADGES */
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .status-pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .status-in-progress {
+    background: #dbeafe;
+    color: #1e3a8a;
+  }
+
+  .status-completed {
+    background: #dcfce7;
+    color: #065f46;
+  }
+
+  /* 🎯 ICON */
+  .card-icon {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5rem;
+    background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+    transition: all 0.3s ease;
+  }
+
+  .card-icon:hover {
+    transform: rotate(6deg) scale(1.1);
+  }
+
+  /* 💫 FLOATING EFFECT */
+  .float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* 🌟 GLOW TEXT */
+  .glow-text {
+    background: linear-gradient(90deg, #3b82f6, #6366f1, #06b6d4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ---------------- ANIMATIONS ---------------- */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shine {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ---------------- SCROLL ---------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 🔥 SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#3b82f6, #6366f1);
+  border-radius: 10px;
+}
