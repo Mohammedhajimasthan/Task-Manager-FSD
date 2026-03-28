@@ -7,20 +7,14 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    await verifyToken(); // ✅ just call it
-
-    const { id } = params;
+    await verifyToken();
 
     return NextResponse.json({
-      message: "Task fetched successfully",
-      id,
+      message: "Task fetched",
+      id: params.id,
     });
-
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Unauthorized" },
-      { status: 401 }
-    );
+  } catch {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 }
 
@@ -31,21 +25,15 @@ export async function PUT(
 ) {
   try {
     await verifyToken();
-
-    const { id } = params;
     const body = await req.json();
 
     return NextResponse.json({
-      message: "Task updated successfully",
-      id,
+      message: "Task updated",
+      id: params.id,
       data: body,
     });
-
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Unauthorized" },
-      { status: 401 }
-    );
+  } catch {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 }
 
@@ -57,17 +45,11 @@ export async function DELETE(
   try {
     await verifyToken();
 
-    const { id } = params;
-
     return NextResponse.json({
-      message: "Task deleted successfully",
-      id,
+      message: "Task deleted",
+      id: params.id,
     });
-
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Unauthorized" },
-      { status: 401 }
-    );
+  } catch {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 }
