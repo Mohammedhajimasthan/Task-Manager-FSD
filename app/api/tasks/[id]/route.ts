@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/middleware/authMiddleware";
 
-// GET task
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// GET all tasks
+export async function GET(req: NextRequest) {
   try {
     await verifyToken();
 
     return NextResponse.json({
-      message: "Task fetched successfully",
-      id: params.id,
+      message: "All tasks fetched successfully",
     });
   } catch {
     return NextResponse.json(
@@ -21,40 +17,16 @@ export async function GET(
   }
 }
 
-// UPDATE task
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// CREATE task
+export async function POST(req: NextRequest) {
   try {
     await verifyToken();
 
-    const body = await req.json();
+    const { title, description, status = "pending" } = await req.json();
 
     return NextResponse.json({
-      message: "Task updated successfully",
-      id: params.id,
-      data: body,
-    });
-  } catch {
-    return NextResponse.json(
-      { message: "Unauthorized" },
-      { status: 401 }
-    );
-  }
-}
-
-// DELETE task
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await verifyToken();
-
-    return NextResponse.json({
-      message: "Task deleted successfully",
-      id: params.id,
+      message: "Task created successfully",
+      task: { title, description, status },
     });
   } catch {
     return NextResponse.json(
