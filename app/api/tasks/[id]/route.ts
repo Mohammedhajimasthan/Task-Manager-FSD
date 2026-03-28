@@ -13,6 +13,7 @@ export async function GET(
       message: "Task fetched",
       id: params.id,
     });
+
   } catch {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
@@ -32,6 +33,7 @@ export async function PUT(
       id: params.id,
       data: body,
     });
+
   } catch {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
@@ -49,6 +51,7 @@ export async function DELETE(
       message: "Task deleted",
       id: params.id,
     });
+
   } catch {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
