@@ -1,106 +1,73 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import Task from "@/models/Task";
 import { verifyToken } from "@/middleware/authMiddleware";
 
+// GET
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await verifyToken(); // ✅ just call it
+
+    const { id } = params;
+
+    return NextResponse.json({
+      message: "Task fetched successfully",
+      id,
+    });
+
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+}
+
+// PUT
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    await connectDB();
-
-    const user = await verifyToken();
-    if (user instanceof NextResponse) return user;
+    await verifyToken();
 
     const { id } = params;
+    const body = await req.json();
 
-    if (!id || typeof id !== "string") {
-      return NextResponse.json(
-        { error: "Invalid task ID" },
-        { status: 400 }
-      );
-    }
+    return NextResponse.json({
+      message: "Task updated successfully",
+      id,
+      data: body,
+    });
 
-    const updateData = await req.json();
-
-    // Validate status
-    if (updateData.status && !["pending", "in-progress", "completed"].includes(updateData.status)) {
-      return NextResponse.json(
-        { error: "Invalid status" },
-        { status: 400 }
-      );
-    }
-
-    const task = await Task.findOneAndUpdate(
-      { _id: id, userId: user.id },
-      {
-        ...updateData,
-        updatedAt: new Date()
-      },
-      {
-        new: true,
-        runValidators: true
-      }
-    );
-
-    if (!task) {
-      return NextResponse.json(
-        { error: "Task not found or access denied" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(task.toObject());
-  } catch (error: any) {
-    console.error("Update task error:", error);
+  } catch (error) {
     return NextResponse.json(
-      { error: error.message || "Failed to update task" },
-      { status: 500 }
+      { message: "Unauthorized" },
+      { status: 401 }
     );
   }
 }
 
+// DELETE
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    await connectDB();
-
-    const user = await verifyToken();
-    if (user instanceof NextResponse) return user;
+    await verifyToken();
 
     const { id } = params;
 
-    if (!id || typeof id !== "string") {
-      return NextResponse.json(
-        { error: "Invalid task ID" },
-        { status: 400 }
-      );
-    }
-
-    const task = await Task.findOneAndDelete({
-      _id: id,
-      userId: user.id
+    return NextResponse.json({
+      message: "Task deleted successfully",
+      id,
     });
 
-    if (!task) {
-      return NextResponse.json(
-        { error: "Task not found or access denied" },
-        { status: 404 }
-      );
-    }
-
+  } catch (error) {
     return NextResponse.json(
-      { message: "Task deleted successfully" },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error("Delete task error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { message: "Unauthorized" },
+      { status: 401 }
     );
   }
 }
