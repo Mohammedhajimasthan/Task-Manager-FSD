@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-// ✅ VERIFY TOKEN (USED IN API ROUTES)
+// ✅ Verify token
 export async function verifyToken() {
-  const cookieStore = await cookies(); // ✅ Next.js 14+ compatible
+  const cookieStore = await cookies();
   const token = cookieStore.get("authToken")?.value;
 
   if (!token) {
@@ -13,7 +13,7 @@ export async function verifyToken() {
   return token;
 }
 
-// ✅ OPTIONAL MIDDLEWARE
+// ✅ Middleware (optional)
 export async function authMiddleware(req: NextRequest) {
   try {
     await verifyToken();
