@@ -1,55 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/middleware/authMiddleware";
 
-// GET
+// GET task
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await verifyToken();
 
     return NextResponse.json({
-      message: "Task fetched",
-      id: context.params.id,
+      message: "Task fetched successfully",
+      id: params.id,
     });
   } catch {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 }
 
-// PUT
+// UPDATE task
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await verifyToken();
+
     const body = await req.json();
 
     return NextResponse.json({
-      message: "Task updated",
-      id: context.params.id,
+      message: "Task updated successfully",
+      id: params.id,
       data: body,
     });
   } catch {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 }
 
-// DELETE
+// DELETE task
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await verifyToken();
 
     return NextResponse.json({
-      message: "Task deleted",
-      id: context.params.id,
+      message: "Task deleted successfully",
+      id: params.id,
     });
   } catch {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 }
