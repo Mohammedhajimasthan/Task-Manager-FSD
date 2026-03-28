@@ -15,8 +15,6 @@ export async function authMiddleware(req: NextRequest) {
       );
     }
 
-    // You can verify token here later
-
     return NextResponse.next();
 
   } catch (error) {
